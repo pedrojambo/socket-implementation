@@ -18,20 +18,27 @@ while True:
 
     try:
         print('Aguardando login')
-        message  = connectionSocket.recv(6000)
-        filename = message.split()[1]
-        f = open(filename[1:], 'rb')
-        outputdata = f.read()
+        message = connectionSocket.recv(6000)
+        message_parts = message.split()
 
-        #Send one HTTP header line into socket
-        message = b'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: ' + str(len(outputdata)).encode() + b'\r\n\r\n'
-        connectionSocket.send(message)
-        
-        #Send the content of the requested file to the client 
-        print('Enviando mensagem')
-        connectionSocket.send(outputdata)
-        connectionSocket.close()
-        print('Mensagem enviada')
+        if len(message_parts) >= 2:
+            filename = message_parts[1]
+            f = open(filename[1:], 'rb')
+            outputdata = f.read()
+
+            # Send HTTP response header
+            response_header = b'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: ' + str(
+                len(outputdata)).encode() + b'\r\n\r\n'
+            connectionSocket.send(response_header)
+
+            # Send the content of the requested file to the client
+            print('Enviando mensagem')
+            connectionSocket.send(outputdata)
+            connectionSocket.close()
+            print('Mensagem enviada')
+        else:
+            raise IOError
+
 
     except IOError:
         #Send response message for file not found
