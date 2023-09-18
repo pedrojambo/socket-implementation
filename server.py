@@ -46,7 +46,7 @@ while True:
 
     elif message.startswith("POST"):
         try:    
-            if "username=pedro+&password=jambo" in message:
+            if "username=pedro&password=jambo" in message:
                 print('login correto')
 
                 f2 = open('home.html', 'rb')
