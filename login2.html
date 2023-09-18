@@ -12,5 +12,9 @@
         <input type="password" id="password" name="password" required><br><br>
         <input type="submit" value="Entrar">
     </form>
+    <p id="error-message" style="color: red; display: none;">Credenciais incorretas. Verifique seu username e password e tente novamente.</p>
+    <script>
+        document.getElementById("error-message").style.display = "block";
+    </script>
 </body>
 </html>
