@@ -54,9 +54,11 @@ while True:
                 print('Arquivo aberto')
                 f2.close()
 
-                #Catch server DNS/IP
-                server_ip = connectionSocket.getsockname()[0]
-                outputdata2 = outputdata2.replace(b'{{SERVER_IP}}', server_ip.encode())
+                #Get server IP using DNS
+                DNS = gethostname()
+                IP  = gethostbyname(DNS)
+
+                outputdata2 = outputdata2.replace(b'{{SERVER_IP}}', IP.encode())
                 
                 #Send one HTTP header line into socket
                 header2 = b'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: ' + str(len(outputdata2)).encode() + b'\r\n\r\n'
